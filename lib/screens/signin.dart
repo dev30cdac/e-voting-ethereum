@@ -237,11 +237,7 @@ class _SignInState extends State<SignIn> {
                       SizedBox(
                         height: 20,
                       ),
-                      Image.asset(
-                        "assets/fingerprint.png",
-                        height: 36,
-                        width: 36,
-                      ),
+                      _buildSocialBtnRow(),
                       SizedBox(
                         height: 30,
                       ),
@@ -268,6 +264,57 @@ class _SignInState extends State<SignIn> {
         ));
   }
 
+  Widget _buildSocialBtnRow() {
+    return Padding(
+      padding: EdgeInsets.symmetric(vertical: 30.0),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: <Widget>[
+          _buildSocialBtn(
+            () => print('Login with Facebook'),
+            AssetImage(
+              'assets/logos/facebook.jpg',
+            ),
+          ),
+          _buildSocialBtn(
+            () => print('Login with Metamask'),
+            AssetImage(
+              'assets/logos/google.jpg',
+            ),
+          ),
+          Image.asset(
+            "assets/fingerprint.png",
+            height: 36,
+            width: 36,
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildSocialBtn(Function onTap, AssetImage logo) {
+    return GestureDetector(
+      child: Container(
+        height: 60.0,
+        width: 60.0,
+        decoration: BoxDecoration(
+          shape: BoxShape.circle,
+          color: Colors.white,
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black26,
+              offset: Offset(0, 2),
+              blurRadius: 6.0,
+            ),
+          ],
+          image: DecorationImage(
+            image: logo,
+          ),
+        ),
+      ),
+    );
+  }
+
   login(email, password) async {
     Map data = {'email': email, 'password': password};
     print(data.toString());
@@ -283,7 +330,8 @@ class _SignInState extends State<SignIn> {
     setState(() {
       isLoading = false;
     });
-
+    Navigator.pushReplacementNamed(context, "/home");
+    /*
     String tutorial =
         '{"statusCode": 200, "body": {"data" : {"name" : "Devendra" ,"email": "dev30.cdac@gmail.com","id" :"publicAddress"}}}';
     final response = jsonDecode(tutorial);
@@ -303,6 +351,8 @@ class _SignInState extends State<SignIn> {
       scaffoldMessenger
           .showSnackBar(SnackBar(content: Text("Please try again!")));
     }
+
+    */
   }
 
   savePref(int value, String name, String email, int id) async {

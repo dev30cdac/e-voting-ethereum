@@ -17,7 +17,8 @@
         }
       ],
       "stateMutability": "view",
-      "type": "function"
+      "type": "function",
+      "constant": true
     },
     {
       "inputs": [
@@ -66,7 +67,8 @@
         }
       ],
       "stateMutability": "view",
-      "type": "function"
+      "type": "function",
+      "constant": true
     }
   ],
   "metadata": "{\"compiler\":{\"version\":\"0.8.7+commit.e28d00a7\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"inputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"constructor\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"toVoter\",\"type\":\"address\"},{\"internalType\":\"address\",\"name\":\"registerer\",\"type\":\"address\"}],\"name\":\"Register\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint8\",\"name\":\"toProposal\",\"type\":\"uint8\"},{\"internalType\":\"address\",\"name\":\"voterAddr\",\"type\":\"address\"}],\"name\":\"Vote\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"Winner\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"_winningProposal\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"organizerAdmin\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"}],\"devdoc\":{\"kind\":\"dev\",\"methods\":{},\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"version\":1}},\"settings\":{\"compilationTarget\":{\"/E/Devendra/BlockChain/Code/e-voting-ethereum/contracts/Election.sol\":\"Election\"},\"evmVersion\":\"byzantium\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":false,\"runs\":200},\"remappings\":[]},\"sources\":{\"/E/Devendra/BlockChain/Code/e-voting-ethereum/contracts/Election.sol\":{\"keccak256\":\"0x868f1b143a589d3c31d10275e33282fa4a81842b1f383050d0c8d4010fdaa97c\",\"urls\":[\"bzz-raw://0d23722a66c97f3401e6ca056da198c0fb8d10abecddec0b414e45aed9fdc694\",\"dweb:/ipfs/QmafVCWGkzBXzsr7K5BhUMqPNnqkVeZBWAwBSMNnyTzdh6\"]}},\"version\":1}",
@@ -6412,12 +6414,13 @@
     "5777": {
       "events": {},
       "links": {},
-      "address": "0x1A28A0c81E871B71d1c8B059853dfB87E2Be887D",
-      "transactionHash": "0xa7f2a8eb5b415af147ba4986e89259da390b379359193e566cf95249c43e3b24"
+      "address": "0x48d213cA806F226658Df88dcc3D9fAC83713f4C6",
+      "transactionHash": "0x24a9e518877259069c0c025a12824597fdc57aaf10dd23315bf5da27f5655cb1"
     }
   },
   "schemaVersion": "3.4.1",
-  "updatedAt": "2021-09-16T18:16:10.770Z",
+  "updatedAt": "2021-09-17T03:57:45.402Z",
+  "networkType": "ethereum",
   "devdoc": {
     "kind": "dev",
     "methods": {},

@@ -33,6 +33,10 @@ dependencies:
   intl: ^0.17.0
   webview_flutter: ^2.0.9
   shared_preferences: ^2.0.6
+  web3dart: ^2.3.1
+  provider: ^6.0.0
+  web_socket_channel: ^2.1.0
+  fluttertoast: ^8.0.8
 
 dev_dependencies:
   flutter_test:
@@ -51,6 +55,11 @@ flutter:
 
   assets:
     - assets/
+    - src/artifacts/HelloWorld.json
+    - src/artifacts/Election.json
+    - src/artifacts/User.json
+    - assets/logos/facebook.jpg
+    - assets/logos/google.jpg
   # To add assets to your application, add an assets section, like this:
   # assets:
   #   - images/a_dot_burr.jpeg
