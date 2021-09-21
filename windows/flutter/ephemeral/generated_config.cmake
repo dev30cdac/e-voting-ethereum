@@ -10,7 +10,7 @@ list(APPEND FLUTTER_TOOL_ENVIRONMENT
   "FLUTTER_EPHEMERAL_DIR=E:\\Devendra\\BlockChain\\Code\\e-voting-ethereum\\windows\\flutter\\ephemeral"
   "PROJECT_DIR=E:\\Devendra\\BlockChain\\Code\\e-voting-ethereum"
   "FLUTTER_TARGET=E:\\Devendra\\BlockChain\\Code\\e-voting-ethereum\\lib\\main.dart"
-  "DART_DEFINES=Zmx1dHRlci5pbnNwZWN0b3Iuc3RydWN0dXJlZEVycm9ycz10cnVl,RkxVVFRFUl9XRUJfQVVUT19ERVRFQ1Q9dHJ1ZQ=="
+  "DART_DEFINES=RkxVVFRFUl9XRUJfQVVUT19ERVRFQ1Q9dHJ1ZQ=="
   "DART_OBFUSCATION=false"
   "TRACK_WIDGET_CREATION=true"
   "TREE_SHAKE_ICONS=false"
