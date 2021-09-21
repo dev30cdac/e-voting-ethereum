@@ -1,14 +1,10 @@
-import 'dart:convert';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../utils/api.dart';
-import 'signup.dart';
 import 'package:http/http.dart' as http;
-
 import 'package:shared_preferences/shared_preferences.dart';
-import 'home.dart';
 
 class SignIn extends StatefulWidget {
   @override
@@ -102,7 +98,7 @@ class _SignInState extends State<SignIn> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
                           Text(
-                            "Learn new Technologies 😋",
+                            APP_THEME,
                             textAlign: TextAlign.center,
                             style: GoogleFonts.roboto(
                               textStyle: TextStyle(
@@ -277,9 +273,15 @@ class _SignInState extends State<SignIn> {
             ),
           ),
           _buildSocialBtn(
-            () => print('Login with Metamask'),
+            () => print('Login with Google'),
             AssetImage(
               'assets/logos/google.jpg',
+            ),
+          ),
+          _buildSocialBtn(
+            () => print('Login with Metamask'),
+            AssetImage(
+              'assets/logos/metamask.jpg',
             ),
           ),
           Image.asset(
@@ -294,6 +296,7 @@ class _SignInState extends State<SignIn> {
 
   Widget _buildSocialBtn(Function onTap, AssetImage logo) {
     return GestureDetector(
+      onTap: () => onTap(),
       child: Container(
         height: 60.0,
         width: 60.0,
@@ -330,7 +333,13 @@ class _SignInState extends State<SignIn> {
     setState(() {
       isLoading = false;
     });
-    Navigator.pushReplacementNamed(context, "/home");
+    String role = await _tempLogin(email, password);
+    print("Role  =======================>");
+    print(role);
+    savePref(1, "Devendra", email, 1, role);
+    Navigator.pushReplacementNamed(context, "/home",
+        arguments: {'role': role, 'email': email});
+
     /*
     String tutorial =
         '{"statusCode": 200, "body": {"data" : {"name" : "Devendra" ,"email": "dev30.cdac@gmail.com","id" :"publicAddress"}}}';
@@ -355,13 +364,24 @@ class _SignInState extends State<SignIn> {
     */
   }
 
-  savePref(int value, String name, String email, int id) async {
+  savePref(int value, String name, String email, int id, String role) async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
 
     preferences.setInt("value", value);
     preferences.setString("name", name);
     preferences.setString("email", email);
     preferences.setString("id", id.toString());
+    preferences.setString("role", role);
     preferences.commit();
+  }
+
+  Future<String> _tempLogin(email, password) async {
+    String role = VOTER_ROLE;
+    if (email == SUPER_ADMIN_EMAIL_ID) {
+      role = SUPER_ADMIN_ROLE;
+    } else if (email == GORUP_ADMIN_EMAIL_ID) {
+      role = ORG_ADMIN_ROLE;
+    }
+    return role;
   }
 }

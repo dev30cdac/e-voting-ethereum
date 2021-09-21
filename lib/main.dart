@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+import 'package:provider/provider.dart';
 import './screens/home.dart';
 import './screens/signin.dart';
 import './screens/signup.dart';
@@ -22,7 +22,7 @@ class _MyAppState extends State<MyApp> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    //getPref();
+    getPref();
   }
 
   @override
@@ -38,11 +38,11 @@ class _MyAppState extends State<MyApp> {
               fit: BoxFit.fill,
             ),
           ),
-          (_loginStatus == 1) ? Home() : SignIn()
+          _loginStatus == 1 ? Home() : SignIn()
         ],
       ),
       theme: ThemeData.light(),
-      debugShowCheckedModeBanner: false,
+      debugShowCheckedModeBanner: true,
       routes: <String, WidgetBuilder>{
         '/signin': (BuildContext context) => new SignIn(),
         '/signup': (BuildContext context) => new SignUp(),
@@ -55,7 +55,11 @@ class _MyAppState extends State<MyApp> {
   getPref() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     setState(() {
-      _loginStatus = preferences.getInt("value")!;
+      if (preferences.getInt("value") != null) {
+        _loginStatus = preferences.getInt("value")!;
+      } else {
+        _loginStatus = 0;
+      }
     });
   }
 }

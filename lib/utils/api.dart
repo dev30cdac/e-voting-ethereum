@@ -1,5 +1,11 @@
-const String ROOT = "http://tutionteacher.rrtutors.com";
+const String ROOT = "http://localhost:5745";
 const String REGISTRATION = "$ROOT/api/registration.php";
 const String LOGIN = "$ROOT/api/login.php";
-const String APP_TITLE = "E-voting with Ethereum";
+const String APP_TITLE = "E-Voting On Ethereum";
 const String APP_MESSAGE = "Group-4, IIIT Hyderabad";
+const String SUPER_ADMIN_EMAIL_ID = "dev30.cdac@gmail.com";
+const String GORUP_ADMIN_EMAIL_ID = "bashir@gmail.com";
+const String SUPER_ADMIN_ROLE = "superAdmin";
+const String ORG_ADMIN_ROLE = "orgAdmin";
+const String VOTER_ROLE = "voter";
+const String APP_THEME = "Your Election DApp";

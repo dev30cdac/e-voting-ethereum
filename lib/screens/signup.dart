@@ -107,7 +107,7 @@ class _SignUpState extends State<SignUp> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
                           Text(
-                            "Learn new Technologies 😋(Flutter +)",
+                            APP_THEME,
                             textAlign: TextAlign.center,
                             style: GoogleFonts.roboto(
                               textStyle: TextStyle(
