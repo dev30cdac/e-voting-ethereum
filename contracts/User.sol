@@ -1,6 +1,6 @@
 pragma solidity ^0.8.7;
 
-contract User {
+contract Account {
 
   struct UserStruct {
     bytes32 userEmail;
