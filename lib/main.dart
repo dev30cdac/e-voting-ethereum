@@ -28,31 +28,31 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: Stack(
-        children: [
-          Container(
-            width: double.infinity,
-            height: double.infinity,
-            child: Image.asset(
-              "assets/background.jpg",
-              fit: BoxFit.fill,
+        home: Stack(
+          children: [
+            Container(
+              width: double.infinity,
+              height: double.infinity,
+              child: Image.asset(
+                "assets/background.jpg",
+                fit: BoxFit.fill,
+              ),
             ),
-          ),
-          _loginStatus == 1 ? Home() : SignIn()
-        ],
-      ),
-      theme: ThemeData.light(),
-      debugShowCheckedModeBanner: true,
-      routes: <String, WidgetBuilder>{
-        '/signin': (BuildContext context) => new SignIn(),
-        '/signup': (BuildContext context) => new SignUp(),
-        '/home': (BuildContext context) => new Home(),
-      },
-    );
+            _loginStatus == 1 ? Home() : SignIn()
+          ],
+        ),
+        theme: ThemeData.light(),
+        debugShowCheckedModeBanner: true,
+        routes: <String, WidgetBuilder>{
+          '/signin': (BuildContext context) => new SignIn(),
+          '/signup': (BuildContext context) => new SignUp(),
+          '/home': (BuildContext context) => new Home(),
+        });
   }
 
   var _loginStatus = 0;
   getPref() async {
+    print("-----------init in home page-----");
     SharedPreferences preferences = await SharedPreferences.getInstance();
     setState(() {
       if (preferences.getInt("value") != null) {

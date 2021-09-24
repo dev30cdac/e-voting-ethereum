@@ -6,5 +6,5 @@ class EthereumConnection {
       kIsWeb ? "http://127.0.0.1:7545" : "http://10.0.2.2:7545";
   final String wsUrl = kIsWeb ? "ws://127.0.0.1:7545/" : "ws://10.0.2.2:7545/";
   final String privateKey =
-      "60915fdbf7a80e27d9928664c9166150d74d8256bde06892cdad4e26e0777d9a";
+      "0dc70029c1ff19a11ac556e3c229d9ff9627e49ed82c5782147fdd9b9dc20d0d";
 }

@@ -133,11 +133,19 @@ class _ElectionUI extends State<ElectionUI> {
                           height: 50,
                           child: ElevatedButton.icon(
                             onPressed: () async {
-                              String winnerIs = await contractLink.winner();
-                              displayWinner(
-                                  context,
-                                  candidateNames[int.parse(winnerIs)],
-                                  assetsImages[int.parse(winnerIs)]);
+                              await contractLink.WinnerAnnounced();
+                              bool falg = false;
+                              if (falg) {
+                                showError(
+                                    " PLEASE WAIT FOR WINNER ANNOUNCEMENT",
+                                    context);
+                              } else {
+                                String winnerIs = await contractLink.winner();
+                                displayWinner(
+                                    context,
+                                    candidateNames[int.parse(winnerIs)],
+                                    assetsImages[int.parse(winnerIs)]);
+                              }
                             },
                             label: Text("Display Winner"),
                             icon: Icon(Icons.card_giftcard),
@@ -197,7 +205,7 @@ class _ElectionUI extends State<ElectionUI> {
         contractLink.isLoading
             ? CircularProgressIndicator()
             : Padding(
-                padding: const EdgeInsets.only(top: 18.0, bottom: 8.0),
+                padding: const EdgeInsets.only(bottom: 8.0),
                 child: Container(
                     width: MediaQuery.of(context).size.width / 2,
                     height: 50,
@@ -212,7 +220,7 @@ class _ElectionUI extends State<ElectionUI> {
         contractLink.isLoading
             ? CircularProgressIndicator()
             : Padding(
-                padding: const EdgeInsets.only(top: 18.0, bottom: 8.0),
+                padding: const EdgeInsets.only(bottom: 8.0),
                 child: Container(
                     width: MediaQuery.of(context).size.width / 2,
                     height: 50,
@@ -223,6 +231,22 @@ class _ElectionUI extends State<ElectionUI> {
                       label:
                           Text("Total Voters - ${contractLink.totalVoters} "),
                       icon: Icon(Icons.countertops),
+                    )),
+              ),
+        contractLink.isLoading
+            ? CircularProgressIndicator()
+            : Padding(
+                padding: const EdgeInsets.only(bottom: 8.0),
+                child: Container(
+                    width: MediaQuery.of(context).size.width / 2,
+                    height: 50,
+                    child: ElevatedButton.icon(
+                      onPressed: () async {
+                        await contractLink.announcedWinner();
+                        print(" Winner is announced! ");
+                      },
+                      label: Text("Announced Winner"),
+                      icon: Icon(Icons.announcement),
                     )),
               )
       ]),
@@ -280,6 +304,7 @@ class _ElectionUI extends State<ElectionUI> {
                     ElevatedButton(
                         onPressed: () {
                           Navigator.pop(context);
+                          //Navigator.of(context).pop();
                         },
                         child: Text("Cancel")),
                     Padding(
@@ -292,6 +317,7 @@ class _ElectionUI extends State<ElectionUI> {
                                 "Organization ${voterAddress.text.substring(0, 5)}XXXX Registered.",
                                 context);
                             Navigator.pop(context);
+                            //Navigator.of(context).pop();
                           },
                           child: Text("Register")),
                     )
@@ -353,7 +379,8 @@ class _ElectionUI extends State<ElectionUI> {
                   children: [
                     ElevatedButton(
                         onPressed: () {
-                          Navigator.pop(context);
+                          //Navigator.pop(context);
+                          Navigator.of(context).pop();
                         },
                         child: Text("Cancel")),
                     Padding(
@@ -365,7 +392,8 @@ class _ElectionUI extends State<ElectionUI> {
                             showToast(
                                 "Voter ${voterAddress.text.substring(0, 5)}XXXX Registered.",
                                 context);
-                            Navigator.pop(context);
+                            // Navigator.pop(context);
+                            Navigator.of(context).pop();
                           },
                           child: Text("Register")),
                     )
@@ -407,6 +435,18 @@ class _ElectionUI extends State<ElectionUI> {
       backgroundColor: Colors.teal,
       toastLength: Toast.LENGTH_SHORT,
       gravity: ToastGravity.TOP,
+      textColor: Colors.white,
+      fontSize: 20,
+    );
+  }
+
+  showError(String message, BuildContext context) {
+    Fluttertoast.showToast(
+      msg: message,
+      backgroundColor: Colors.amberAccent,
+      toastLength: Toast.LENGTH_SHORT,
+      gravity: ToastGravity.CENTER,
+      timeInSecForIosWeb: 2,
       textColor: Colors.white,
       fontSize: 20,
     );

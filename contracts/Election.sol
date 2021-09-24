@@ -5,10 +5,12 @@ contract Election{
         uint8 vote ;
         bool isVoted ;
         bool isRegister;
+        bool isKYC;
     }
 
     address public organizerAdmin ;
     mapping(address => Voter) voters ;
+    bool public isWinnerAnnounced;
     uint[3] proposals ;
     uint8 public totalVoters ;
     uint8 public totalVotes;
@@ -17,6 +19,7 @@ contract Election{
     event LogRegister(address toVoter,address registerer);
     event LogGetTotalVotes(string  msg, uint8 totalVotes);
     event LogGetTotalVoters(string  msg, uint8 totalVoters);
+    event LogAnnouncedWinner (address indexed userAddress);
 
     modifier onlySupperAdmin(){
        require(msg.sender == organizerAdmin);
@@ -29,9 +32,18 @@ contract Election{
         organizerAdmin = msg.sender ;
         voters[organizerAdmin].weight = 1 ;
         voters[organizerAdmin].isVoted = false ;
+        isWinnerAnnounced = false;
     }
 
-    function Register(address toVoter,address registerer) public {
+    function updateKYCStatus(address voterAddress, bool  kyc) public  {
+         if(!voters[voterAddress].isRegister) {
+            revert();
+         }else {
+            voters[voterAddress].isKYC = kyc;
+         }
+    }
+
+    function Register(address toVoter,address registerer) public{
         if(voters[toVoter].isVoted || voters[toVoter].isRegister  || registerer != organizerAdmin) {
             revert() ;
         } else {
@@ -54,13 +66,26 @@ contract Election{
     }
     function getCandidateVote(uint candidateId) public view returns( uint _vote) {
         assert(msg.sender != organizerAdmin);
-        return proposals[candidateId];
+        _vote = proposals[candidateId];
     }
-    function Vote(uint8 toProposal, address voterAddr) public{
+    /*
+     ResponseCode 1 - Success
+     ResponseCode 0 - Not Register
+     ResponseCode 2 - Already voted
+     ResponseCode 3 - KYC is pendding
+    */
+    function Vote(uint8 toProposal, address voterAddr) public {
         Voter memory sender = voters[voterAddr] ;
-        if( sender.isVoted || !sender.isRegister || toProposal>proposals.length || sender.weight == 0)  {
-            revert() ;
-        }else {
+        if( toProposal>proposals.length || sender.weight == 0) {
+            revert();
+        }
+        if(sender.isVoted) {
+            revert();
+     //  } else if(!sender.isKYC) {
+    //     revert();
+        }else if(!sender.isRegister){
+            revert();
+        } else {
             sender.isVoted = true ;
             sender.vote = toProposal ;
             proposals[toProposal] += sender.weight ;
@@ -68,8 +93,8 @@ contract Election{
             totalVotes++;
             emit LogVote(voterAddr,toProposal);
         }
-
     }
+
 
     function Winner() public view returns(uint _winningProposal){
         uint winningVoteCount = 0 ;
@@ -79,5 +104,14 @@ contract Election{
                 _winningProposal = prop ;
             }
         }
+        
+    }
+
+    function announcedWinner()  public{
+        if(organizerAdmin != msg.sender) {
+            revert();
+        }
+        isWinnerAnnounced = true;
+        emit LogAnnouncedWinner (  organizerAdmin);
     }
 }

@@ -29,10 +29,13 @@ class ElectionContract extends ChangeNotifier {
   late ContractFunction _getTotalVotesFunc;
   late ContractFunction _getTotalVotersFunc;
   late ContractFunction _getCandidateVoteFunc;
+  late ContractFunction _announcedWinnerFunc;
+  late ContractFunction _isWinnerAnnounced;
 
   bool isLoading = true;
   late String totalVotes;
   late String totalVoters;
+  late bool isWinnerAnnounced;
 
   ElectionContract() {
     inititalSetup();
@@ -50,6 +53,7 @@ class ElectionContract extends ChangeNotifier {
     await getDeployedContract();
     await getTotalVotes();
     await getTotalVoters();
+    await WinnerAnnounced();
     await getOrganizerAdmin();
   }
 
@@ -78,6 +82,8 @@ class ElectionContract extends ChangeNotifier {
     _getTotalVotesFunc = _contract.function("totalVotes");
     _getTotalVotersFunc = _contract.function("totalVoters");
     _getCandidateVoteFunc = _contract.function("getCandidateVote");
+    _announcedWinnerFunc = _contract.function("announcedWinner");
+    _isWinnerAnnounced = _contract.function("isWinnerAnnounced");
   }
 
   getCandidateVotes(int pro) async {
@@ -121,13 +127,27 @@ class ElectionContract extends ChangeNotifier {
       var reponse = await _client
           .call(contract: _contract, function: _getTotalVotersFunc, params: []);
       totalVoters = reponse[0].toString();
-      print("totalVoters ====>");
-      print(reponse);
-      print(reponse[0]);
-      print(totalVoters);
     } catch (e) {
       print(e);
       totalVoters = "0";
+    }
+    isLoading = false;
+    notifyListeners();
+  }
+
+  WinnerAnnounced() async {
+    isLoading = true;
+    notifyListeners();
+    try {
+      var reponse = await _client
+          .call(contract: _contract, function: _isWinnerAnnounced, params: []);
+      isWinnerAnnounced = reponse[0];
+      print("isWinnerAnnounced ===== >>>");
+      print(isWinnerAnnounced);
+      print("-------");
+    } catch (e) {
+      print(e);
+      isWinnerAnnounced = false;
     }
     isLoading = false;
     notifyListeners();
@@ -159,8 +179,11 @@ class ElectionContract extends ChangeNotifier {
 
   vote(int toProposal, String voterAddress) async {
     isLoading = true;
+    print("print -----------Vote -----");
+    print("toProposal = ${toProposal}-----");
+    print("voterAddress = ${voterAddress}-----");
     notifyListeners();
-    await _client.sendTransaction(
+    var response = await _client.sendTransaction(
         _credentials,
         Transaction.callContract(
             contract: _contract,
@@ -169,12 +192,25 @@ class ElectionContract extends ChangeNotifier {
               BigInt.from(toProposal),
               EthereumAddress.fromHex(voterAddress)
             ]));
+
+    print("print -----------Vote -----");
+    print(response);
+    print(response[0]);
+    print("---- Voting DOne---");
     getOrganizerAdmin();
   }
 
   winner() async {
     var winnerIs = await _client
         .call(contract: _contract, function: _declareWinnerFunc, params: []);
+    print("winner-----------${winnerIs.first} -----");
     return "${winnerIs.first}";
+  }
+
+  announcedWinner() async {
+    print("print -----------announcedWinner -----");
+    var winnerIs = await _client
+        .call(contract: _contract, function: _announcedWinnerFunc, params: []);
+    print("outPut-----------${winnerIs} -----");
   }
 }
